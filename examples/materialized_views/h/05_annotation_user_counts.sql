@@ -10,7 +10,7 @@ CREATE MATERIALIZED VIEW reporting.annotation_user_counts AS (
             DATE_TRUNC('month', created)::date AS created_month,
             authority_id,
             user_id
-        FROM reporting.annotations
+        FROM reporting.annotations_fast
     ) as data
     GROUP BY (created_month, authority_id, user_id)
     ORDER BY created_month, authority_id, user_id
@@ -18,8 +18,8 @@ CREATE MATERIALIZED VIEW reporting.annotation_user_counts AS (
 
 -- Time: 60831.883 ms (01:00.832) 76MB
 
-CREATE INDEX annotation_group_counts_authority_idx ON reporting.annotation_user_counts USING HASH (authority_id);
-CREATE INDEX annotation_user_counts_authority_idx ON reporting.annotation_user_counts USING HASH (user_id);
+CREATE INDEX annotation_user_counts_authority_idx ON reporting.annotation_user_counts USING HASH (authority_id);
+CREATE INDEX annotation_user_counts_user_id_idx ON reporting.annotation_user_counts USING HASH (user_id);
 CREATE INDEX annotation_user_counts_created_week_idx ON reporting.annotation_user_counts (created_month);
 
 REFRESH MATERIALIZED VIEW reporting.annotation_user_counts;

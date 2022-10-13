@@ -54,3 +54,36 @@ SELECT pg_size_pretty(pg_relation_size('reporting.annotation_group_counts_academ
 SELECT pg_size_pretty(pg_relation_size('reporting.annotation_group_counts_academic_half_year_idx'));
 SELECT pg_size_pretty(pg_relation_size('reporting.annotation_group_counts_created_week_authority_id_group_id_idx'));
 -- 18Mb, not too bad?
+
+
+
+SELECT
+     created_week,
+     SUM(count) AS count
+FROM reporting.annotation_group_counts
+WHERE group_id is NULL
+GROUP BY created_week
+ORDER BY created_week;
+
+SELECT
+    created_month,
+    SUM(count) OVER (ORDER BY created_month)
+FROM (
+SELECT
+     DATE_TRUNC('month', created_week) as created_month,
+     SUM(count) AS count
+FROM reporting.annotation_group_counts
+WHERE group_id is NULL
+GROUP BY DATE_TRUNC('month', created_week)
+) AS data;
+
+
+SELECT
+    DATE_TRUNC('month', created_week) AS created_month,
+    SUM(SUM(count)) OVER (ORDER BY )
+FROM reporting.annotation_group_counts
+WHERE
+    group_id is NULL
+    AND DATE_TRUNC('month', created_week) >= '2017-01-01'
+GROUP BY DATE_TRUNC('month', created_week)
+ORDER BY created_month

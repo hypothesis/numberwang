@@ -18,5 +18,4 @@ CREATE UNIQUE INDEX ON reporting.authorities (id);
 CREATE UNIQUE INDEX ON reporting.authorities USING HASH (authority);
 
 REFRESH MATERIALIZED VIEW reporting.authorities;
-
 ANALYZE VERBOSE reporting.authorities;

@@ -1,0 +1,2 @@
+DROP SCHEMA IF EXISTS reporting;
+CREATE SCHEMA reporting AUTHORIZATION hypothesis;

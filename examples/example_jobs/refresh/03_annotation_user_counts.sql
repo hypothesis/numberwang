@@ -1,0 +1,2 @@
+REFRESH MATERIALIZED VIEW CONCURRENTLY reporting.annotation_user_counts;
+ANALYZE VERBOSE reporting.annotation_user_counts;
